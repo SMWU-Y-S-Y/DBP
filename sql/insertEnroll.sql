@@ -1,3 +1,5 @@
+drop procedure InsertEnroll;
+
 CREATE OR REPLACE PROCEDURE InsertEnroll(
 	sStudentId IN VARCHAR2,
 	sCourseId IN VARCHAR2,

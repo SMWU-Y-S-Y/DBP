@@ -9,8 +9,8 @@ Statement stmt = null;
 String mySQL = null;
 
 String dburl = "jdbc:oracle:thin:@localhost:1521:xe";
-String user="c##yeheon";
-String passwd="choi"; // 비밀번호
+String user="c##ysy";
+String passwd="1234"; // 비밀번호
 String dbdriver = "oracle.jdbc.driver.OracleDriver";
 
 Class.forName(dbdriver);

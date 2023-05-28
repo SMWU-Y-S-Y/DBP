@@ -23,8 +23,8 @@ Statement stmt = null;
 String mySQL = null;
 
 String dburl = "jdbc:oracle:thin:@db.sd.ac.kr:1521:ora9";
-String user="c##yeheon"; 
-String passwd="choi";
+String user="c##ysy"; 
+String passwd="1234";
 String dbdriver = "oracle.jdbc.driver.OracleDriver";
 
 try {
