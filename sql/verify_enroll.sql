@@ -1,3 +1,5 @@
+drop procedure SelectTimeTable;
+
 CREATE OR REPLACE PROCEDURE SelectTimeTable(
 	sStudentId 	IN VARCHAR2,
 	nYear 		IN NUMBER,

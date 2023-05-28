@@ -1,3 +1,6 @@
+drop function Date2EnrollYear;
+drop function Date2EnrollSemester;
+
 CREATE OR REPLACE FUNCTION Date2EnrollYear(dDate IN DATE)
 RETURN NUMBER
 IS
