@@ -6,12 +6,34 @@
 </head>
 
 <BODY>
-	<table width="75%" align="center" bgcolor="#FFFF99" border>
+	<table width="75%" align="center" bgcolor="#FFFF00" border>
 		<tr><td><div align="center"> 아이디와 패스워드를 입력하세요
 	</table>
 	
 	<table width="75%" align="center" border>
 	<form method="post" action="login_verify.jsp">
+		<tr>
+			<td><div align="center">아이디</div></td>
+			<td><div align="center"><input type="text" name="userID"></div></td>
+		</tr>
+		<tr>
+			<td><div align="center">패스워드</div></td>
+			<td><div align="center"><input type="password" name="userPassword"></div></td>
+		</tr>
+		<tr>
+			<td colspan=2><div align="center">
+			<INPUT TYPE="SUBMIT" NAME="Submit" VALUE="로그인">
+			<INPUT TYPE="RESET" VALUE="취소">
+			</div></td>
+		</tr>
+	</form>	
+	
+	<table width="75%" align="center" bgcolor="#FFFF00" border>
+		<tr><td><div align="center"> 교수님 아이디와 패스워드를 입력하세요
+	</table>
+	
+	<table width="75%" align="center" border>
+		<form method="post" action="login_verify_pro.jsp">
 		<tr>
 			<td><div align="center">아이디</div></td>
 			<td><div align="center"><input type="text" name="userID"></div></td>

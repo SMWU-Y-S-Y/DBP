@@ -15,16 +15,16 @@ int c_id_no = Integer.parseInt(request.getParameter("c_id_no"));
 Connection myConn = null; 
 String result = null;
 
-String dburl = "jdbc:oracle:thin:@db.sd.ac.kr:1521:ora9";
-String user="c##ysy"; 
-String passwd="1234";
+String dburl = "jdbc:oracle:thin:@localhost:1521:xe";
+String user = "c##ysy";
+String passwd = "1234";
 String dbdriver = "oracle.jdbc.driver.OracleDriver";
 
 try {
 	Class.forName(dbdriver);
 	myConn = DriverManager.getConnection (dburl, user, passwd);
 } catch(SQLException ex) {
-	System.err.println("SQLException: " + ex.getMessage());
+	System.err.println("DB연결 SQLException: " + ex.getMessage());
 }
 
 /* 저장 프로시저 사용 */
@@ -46,7 +46,7 @@ try {
 
 <%
 } catch(SQLException ex) {
-	System.err.println("SQLException: " + ex.getMessage());
+	System.err.println("프로시저 SQLException: " + ex.getMessage());
 }
 finally {
 	if (cstmt != null)

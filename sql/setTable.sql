@@ -73,3 +73,5 @@ create table liked(
 	CONSTRAINT liked_fk1 FOREIGN KEY(s_id) REFERENCES student(s_id) ON DELETE CASCADE,
 	CONSTRAINT liked_fk2 FOREIGN KEY(c_id, c_id_no) REFERENCES course(c_id, c_id_no) ON DELETE CASCADE
 );
+
+CREATE sequence enroll_seq start with 10 increment by 1 maxvalue 9999 nocycle nocache;

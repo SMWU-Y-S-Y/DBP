@@ -32,7 +32,7 @@ try {
 }
 
 try {
-	mySQL ="update student set s_pwd='" + studentPwd + "', s_email='" + studentEmail + "', s_address='" + studentAddr +"' where s_id="+studentId+"";
+	mySQL ="update student set s_pwd='" + studentPwd + "', s_email='" + studentEmail + "', s_address='" + studentAddr +"' where s_id='"+studentId+"'";
 	stmt.execute(mySQL);
 %>
 

@@ -1,21 +1,19 @@
-drop procedure InsertEnroll;
-
-CREATE OR REPLACE PROCEDURE InsertEnroll(
+CREATE or REPLACE PROCEDURE InsertEnroll(
 	sStudentId IN VARCHAR2,
 	sCourseId IN VARCHAR2,
 	nCourseIdNo IN NUMBER,
 	result OUT VARCHAR2)
 IS
-	too_many_sumCourseUnit	EXCEPTION;
-	duplicate_courses 		EXCEPTION;
-	too_many_students 		EXCEPTION;
-	duplicate_time 			EXCEPTION;
-	nYear 			NUMBER;
-	nSemester 		NUMBER;
-	nSumCourseUnit 	NUMBER;
-	nCourseUnit 	NUMBER;
-	nCnt 			NUMBER;
-	nTeachMax 		NUMBER;
+	too_many_sumCourseUnit EXCEPTION;
+	duplicate_courses EXCEPTION;
+	too_many_students EXCEPTION;
+	duplicate_time EXCEPTION;
+	nYear NUMBER;
+	nSemester NUMBER;
+	nSumCourseUnit NUMBER;
+	nCourseUnit NUMBER;
+	nCnt NUMBER;
+	nTeachMax NUMBER;
 BEGIN
 	result := '';
 	
@@ -25,13 +23,12 @@ BEGIN
 	/* 년도, 학기 알아내기 */
 	nYear := Date2EnrollYear(SYSDATE);
 	nSemester := Date2EnrollSemester(SYSDATE);
-
+	
 	/* 에러 처리 1 : 최대학점 초과여부 */
 	SELECT SUM(c.c_unit)
 	INTO nSumCourseUnit
 	FROM course c, enroll e
-	WHERE e.s_id = sStudentId and e.e_year = nYear and
-	e.e_semester = nSemester and e.c_id = c.c_id and e.c_id_no = c.c_id_no;
+	WHERE e.s_id = sStudentId and e.e_year = nYear and e.e_semester = nSemester and e.c_id = c.c_id and e.c_id_no = c.c_id_no;
 	
 	SELECT c_unit
 	INTO nCourseUnit
@@ -52,23 +49,6 @@ BEGIN
 		RAISE duplicate_courses;
 	END IF;
 
-	/* 에러 처리 3 : 수강신청 인원 초과 여부 */
-	SELECT t_max 		/*해당 과목의 수강정원*/
-	INTO nTeachMax
-	FROM teach
-	WHERE t_year= nYear and t_semester = nSemester
-	and c_id = sCourseId and c_id_no= nCourseIdNo;
-	
-	SELECT COUNT(*)
-	INTO nCnt
-	FROM enroll
-	WHERE e_year = nYear and e_semester = nSemester
-	and c_id = sCourseId and c_id_no = nCourseIdNo;
-	
-	IF (nCnt >= nTeachMax) THEN
-		RAISE too_many_students;
-	END IF;
-	
 	/* 에러 처리 4 : 신청한 과목들 시간 중복 여부 */
 	SELECT COUNT(*)
 	INTO nCnt
@@ -86,14 +66,9 @@ BEGIN
 		and t.t_year=nYear and t.t_semester = nSemester 
 		and e.c_id=t.c_id and e.c_id_no=t.c_id_no
 	);
-	
-	IF (nCnt > 0) THEN
-		RAISE duplicate_time;
-	END IF;
 
 	/* 수강 신청 등록 */
-	INSERT INTO enroll(S_ID,C_ID,C_ID_NO,E_YEAR,E_SEMESTER)
-	VALUES (sStudentId, sCourseId, nCourseIdNo, nYear, nSemester);
+	INSERT INTO enroll(E_ID, S_ID,C_ID,C_ID_NO,E_YEAR,E_SEMESTER) VALUES (enroll_seq.nextval, sStudentId, sCourseId, nCourseIdNo, nYear, nSemester);
 	COMMIT;
 	
 	result := '수강신청 등록이 완료되었습니다.';
@@ -110,5 +85,6 @@ BEGIN
 	WHEN OTHERS THEN
 		ROLLBACK;
 		result := SQLCODE;
+
 	END;
 /
