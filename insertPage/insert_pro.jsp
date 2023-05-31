@@ -11,6 +11,32 @@
 
 <% if (session_id==null) response.sendRedirect("../loginPage/login.jsp"); %>
 
+<%
+Connection myConn = null; 
+String dburl="jdbc:oracle:thin:@localhost:1521:xe";
+String user="c##ysy"; 
+String passwd="1234";
+String dbdriver = "oracle.jdbc.driver.OracleDriver";
+
+try {
+	Class.forName(dbdriver);
+	myConn = DriverManager.getConnection (dburl, user, passwd);
+} catch(SQLException ex) {
+	System.err.println("SQLException: " + ex.getMessage());
+}
+
+CallableStatement cstmt1 = myConn.prepareCall("{? = call Date2EnrollYear(SYSDATE)}");
+cstmt1.registerOutParameter(1, java.sql.Types.VARCHAR);
+cstmt1.execute();
+int nYear = cstmt1.getInt(1);
+
+CallableStatement cstmt2 = myConn.prepareCall("{? = call Date2EnrollSemester(SYSDATE)}");
+cstmt2.registerOutParameter(1, java.sql.Types.VARCHAR);
+cstmt2.execute();
+int nSem = cstmt2.getInt(1);
+myConn.close();
+%>
+
 <table width="70%" align="center" id="p_insert_table" style="font-size: 1.2em; margin-top: 8%;">
 <br>
 	<tr style="background-color: #ff6347; color:white;">
@@ -48,8 +74,8 @@
 		</td> 
 		<td align="center"><input type="text" name="lec_loc" id="in"></td>
 		<td align="center"><input type="text" name="lec_max" style="width:65px;" id="in"></td>
-		<td align="center"><input type="text" name="t_year" style="width:65px;" id="in"></td>
-		<td align="center"><input type="text" name="t_semester" style="width:65px;" id="in"></td>
+		<td align="center"><input type="text" name="t_year" style="width:65px;" id="in" value=<%= nYear%> disabled></td>
+		<td align="center"><input type="text" name="t_semester" style="width:65px;" id="in" value=<%= nSem%> disabled></td>
 		<td align="center"><input type="submit" value="추가" id="in_b" style="font-family: ppi;" value="1"></td>
 	</form>
 	</tr>
