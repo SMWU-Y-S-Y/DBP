@@ -98,6 +98,8 @@ else if (sType.equals("2") && sText != ""){
 	mySQL += " and c.c_id = '" + sText + "'";
 }
 
+mySQL += " order by length(c.c_id), c.c_id, c.c_id_no";
+
 ResultSet myResultSet = stmt.executeQuery(mySQL);
 
 if (myResultSet != null) {
