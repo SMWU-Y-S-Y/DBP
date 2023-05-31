@@ -64,35 +64,29 @@
    <%
    }
    
-   String s_year = request.getParameter("t_year");
-   int t_year = 0;
-   if(!s_year.equals("")){
-	   t_year = Integer.parseInt(s_year);
-   }
-   else{
-	   isOkay = false;
-	   %>
-	      <script>   
-	         alert("년도를 확인해주세요.");
-	         location.href="insert_pro.jsp";
-	      </script>
-	   <%
+   Connection myConn1 = null; 
+   String dburl1="jdbc:oracle:thin:@localhost:1521:xe";
+   String user1="c##ysy"; 
+   String passwd1="1234";
+   String dbdriver1 = "oracle.jdbc.driver.OracleDriver";
+
+   try {
+   	Class.forName(dbdriver1);
+   	myConn1 = DriverManager.getConnection (dburl1, user1, passwd1);
+   } catch(SQLException ex) {
+   	System.err.println("SQLException: " + ex.getMessage());
    }
 
-   String s_semester = request.getParameter("t_semester");
-   int t_semester = 0;
-   if(s_semester.equals("1") || s_semester.equals("2")){
-	   t_semester = Integer.parseInt(s_semester);   
-   }
-   else{
-	   isOkay = false;
-   %>
-      <script>   
-         alert("학기을 확인해주세요.");
-         location.href="insert_pro.jsp";
-      </script>
-   <%
-   }   
+   CallableStatement cstmt1 = myConn1.prepareCall("{? = call Date2EnrollYear(SYSDATE)}");
+   cstmt1.registerOutParameter(1, java.sql.Types.VARCHAR);
+   cstmt1.execute();
+   int t_year = cstmt1.getInt(1);
+
+   CallableStatement cstmt2 = myConn1.prepareCall("{? = call Date2EnrollSemester(SYSDATE)}");
+   cstmt2.registerOutParameter(1, java.sql.Types.VARCHAR);
+   cstmt2.execute();
+   int t_semester = cstmt2.getInt(1);
+   myConn1.close();
    
    String c_max = request.getParameter("lec_max");
    int max = 0;
@@ -145,25 +139,25 @@
     s_time = s_time + sh + ":" + sm + "~" + eh + ":" + em;
     
     if (isOkay) {
-    	Connection myConn = null;    
+    	Connection myConn2 = null;    
         String result = null;   
         
-        String dburl = "jdbc:oracle:thin:@localhost:1521:xe";
-        String user = "c##ysy";
-        String passwd = "1234";
-        String dbdriver = "oracle.jdbc.driver.OracleDriver";
+        String dburl2 = "jdbc:oracle:thin:@localhost:1521:xe";
+        String user2 = "c##ysy";
+        String passwd2 = "1234";
+        String dbdriver2 = "oracle.jdbc.driver.OracleDriver";
         
         Statement stmt = null; Statement stmt1 = null; 
         ResultSet rs = null; ResultSet rs1 = null;
-       	CallableStatement cstmt = null; CallableStatement cstmt1 = null;
+       	CallableStatement cstmt3 = null;
        	PreparedStatement pstmt = null; PreparedStatement pstmt1 = null;
        	String sql = null;
        	Boolean check = false; //기존에 있는 값인지 확인
  
        	try{
-       		Class.forName(dbdriver);
-            myConn =  DriverManager.getConnection (dburl, user, passwd);
-            stmt = myConn.createStatement();
+       		Class.forName(dbdriver2);
+            myConn2 =  DriverManager.getConnection (dburl2, user2, passwd2);
+            stmt = myConn2.createStatement();
  
             //기존 테이블에서 과목명으로 검색
             sql = "select c_id, c_id_no from course where c_name = '" + c_name+ "'";
@@ -179,11 +173,12 @@
                     c_id_no = Integer.parseInt(rs.getString("c_id_no"));
                     //System.out.println("기존에 있는 수업입니다. 과목번호: " + c_id + "분반번호" + c_id_no);
                 }
+                
 	            if(check == false){ //새로운 수업이라면   	
 	                String cc_id = null; 
 	            	int n_id=0;
 	                int max_id=0;
-	            	stmt1 = myConn.createStatement();
+	            	stmt1 = myConn2.createStatement();
 	                sql = "select c_id from course"; //모든 c_id 출력
 	                rs1 = stmt1.executeQuery(sql);
 
@@ -205,22 +200,22 @@
 
 	            //System.out.println("새로운 과목 코드입니다. 과목번호: " + c_id + "분반번호" + c_id_no);
 	            
-                cstmt = myConn.prepareCall("{call InsertLecture(?,?,?,?,?,?,?,?,?,?,?)}");   
-                cstmt.setString(1, c_name);
-                cstmt.setInt(2, unit);
-                cstmt.setString(3, id);
-                cstmt.setString(4, c_id);
-                cstmt.setInt(5,c_id_no);
-             	cstmt.setString(6, s_time);
-             	cstmt.setInt(7, t_year); 
-             	cstmt.setInt(8, t_semester); 
-             	cstmt.setString(9, c_loc); 
-             	cstmt.setInt(10, max);
+                cstmt3 = myConn2.prepareCall("{call InsertLecture(?,?,?,?,?,?,?,?,?,?,?)}");   
+                cstmt3.setString(1, c_name);
+                cstmt3.setInt(2, unit);
+                cstmt3.setString(3, id);
+                cstmt3.setString(4, c_id);
+                cstmt3.setInt(5,c_id_no);
+             	cstmt3.setString(6, s_time);
+             	cstmt3.setInt(7, t_year); 
+             	cstmt3.setInt(8, t_semester); 
+             	cstmt3.setString(9, c_loc); 
+             	cstmt3.setInt(10, max);
           
-                cstmt.registerOutParameter(11, java.sql.Types.VARCHAR);
-                cstmt.execute();
+                cstmt3.registerOutParameter(11, java.sql.Types.VARCHAR);
+                cstmt3.execute();
                
-                result = cstmt.getString(11);
+                result = cstmt3.getString(11);
                 //System.out.println(result);
     		 %>
     		 <script>   
@@ -234,7 +229,7 @@
         }finally {
            if (pstmt != null){ 
                 try { 
-                   pstmt.close(); pstmt1.close(); cstmt.close();
+                   pstmt.close(); pstmt1.close(); cstmt3.close();
                 }catch(SQLException ex) { 
                    out.print("error");
                 }
@@ -246,7 +241,7 @@
                    out.print("error");
                }
             }
-            myConn.close();
+            myConn2.close();
         }
     }
  %>
