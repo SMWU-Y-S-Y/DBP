@@ -4,7 +4,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title> 수강신청 조회 </title>
+	<link rel='stylesheet' href='../css/main.css' />
+	<title> 수강신청 조회 </title>
 <script>
 	function onSelect(){
 		var formS = document.getElementById("selectForm");
@@ -13,6 +14,7 @@
 		location.href = "select.jsp?selectYear="+selectYear+"&selectSem="+selectSem;
 	}
 </script>
+
 </head>
 
 <body>
@@ -20,11 +22,10 @@
 
 <% if (session_id==null) response.sendRedirect("../loginPage/login.jsp"); %>
 
-<table width="75%" align="center" border>
-<br>
-<tr>
+<table id="select_table" width="75%" align="center">
+	<tr>
 	<th>과목번호</th><th>분반</th><th>과목명</th><th>강의시간</th><th>강의장소</th><th>학점</th>
-</tr>
+	</tr>
 
 <%
 String sId = (String)session.getAttribute("user");
@@ -75,7 +76,6 @@ else{
 
 mySQL += "and e.c_id = c.c_id and e.c_id_no = c.c_id_no and c.c_id = t.c_id and c.c_id_no = t.c_id_no and e.e_year = t.t_year and e.e_semester = t.t_semester";
 mySQL += " order by e.e_year DESC, e.e_semester DESC, length(e.c_id), e.c_id, e.c_id_no";
-
 ResultSet myResultSet = stmt.executeQuery(mySQL);
 
 if (myResultSet != null) {
@@ -83,9 +83,9 @@ if (myResultSet != null) {
 		String c_id = myResultSet.getString("c_id");
 		int c_id_no = myResultSet.getInt("c_id_no");
 		String c_name = myResultSet.getString("c_name");
+		int c_unit = myResultSet.getInt("c_unit");
 		String t_time = myResultSet.getString("t_time");
 		String t_location = myResultSet.getString("t_location");
-		int c_unit = myResultSet.getInt("c_unit");
 		
 		nTotalCnt += 1;
 		nTotalUnit += c_unit;
@@ -94,8 +94,9 @@ if (myResultSet != null) {
 	<td align="center"><%= c_id %></td> 
 	<td align="center"><%= c_id_no %></td>
 	<td align="center"><%= c_name %></td>
+	
 	<td align="center"><%= t_time %></td>
-	<td align="center"><%= t_location %></td>
+	<td align="center" border-bottom="none"><%= t_location %></td>
 	<td align="center"><%= c_unit %></td>
 	
 </tr>
@@ -107,17 +108,17 @@ stmt.close(); myConn.close();
 
 </table>
 	
-<table width="75%" align="center" border>
-	<tr><td align="center">총 신청 과목 수</td><td align="center"><%=nTotalCnt %></td></tr>
-	<tr><td align="center">총 신청 학점 수</td><td align="center"><%=nTotalUnit %></td></tr>
+<table id="select_table" width="75%" align="center">
+	<tr><th width="75%" align="center" >총 신청 과목 수</th><td align="center"><%=nTotalCnt %></td></tr>
+	<tr><th align="center">총 신청 학점 수</th><td align="center"><%=nTotalUnit %></td></tr>
 </table>
 
 <br><br><br>
 <div align="center">
 <form method="post" width="75%" align="center" id="selectForm" action="select.jsp">
-<input type="text" name="selectYear" <%if (selectYear != null){ %> value = <%=selectYear%><% } %>>년도
-<input type="text" name="selectSem" <%if (selectSem != null){ %> value = <%=selectSem%><% } %>>학기
-<input type="button" value="조회" onclick="onSelect()">
+<input id="selectsearch" type="text" name="selectYear" <%if (selectYear != null){ %> value = <%=selectYear%><% } %>>년도
+<input id="selectsearch" type="text" name="selectSem" <%if (selectSem != null){ %> value = <%=selectSem%><% } %>>학기
+<input type="button" id="select_btn" value="조회" onclick="onSelect()">
 </form>
 
 </div>
