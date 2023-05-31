@@ -5,15 +5,9 @@
 <!DOCTYPE html>
 	<head>
 		<title>수강신청 취소</title>
-		<!-- <link rel='stylesheet' href='./dbDesign.css' /> -->
+		<link rel='stylesheet' href='../css/main.css' />
 	</head>
-	<style type="text/css">
-		#in_b, #in_b:visited {
-			width: 80pt;
-			font-size: 17pt;
-			color: blue;	
-		}
-	</style>
+
 <body>
 <%@ include file="../top.jsp" %>
 <%   
@@ -35,7 +29,7 @@
 	String passwd="1234";
 	String dbdriver = "oracle.jdbc.driver.OracleDriver";
 	String str_course_day = "";
-	
+
 	try {
 		Class.forName(dbdriver);
         myConn =  DriverManager.getConnection (dburl, user, passwd);
@@ -73,7 +67,6 @@
 	int nSemester=cstmt2.getInt(1);
 	mySQL = "select t.c_id, t.c_id_no, c.c_name, t.t_year, t.t_time, t.t_location, t.t_max, t.t_semester from course c, teach t, professor p where p.p_id='"+ session_id +"' and t.t_semester = '"+nSemester+ "' and t.t_year ='"+nYear+"' and t.p_id = p.p_id and c.c_id = t.c_id and t.c_id_no = c.c_id_no";
 	mySQL += " order by length(t.c_id), t.c_id, t.c_id_no";
-	
 	try{
 		myResultSet = stmt.executeQuery(mySQL);
 		if (myResultSet != null) {
@@ -86,6 +79,7 @@
 				String t_where = myResultSet.getString("t_location");
 				int t_max = myResultSet.getInt("t_max");
 				int t_semester = myResultSet.getInt("t_semester");
+				
 				
 %>
 					<tr>
@@ -108,13 +102,6 @@
 			}
 			stmt.close();  
 			myConn.close();
-			%>
-			</table>
-			<br><br><br>
-			<div align="center">
-			<input type="text" value=<%=nYear %> disabled>년도
-			<input type="text" value=<%=nSemester %> disabled>학기
-<%
 	} 
 	else {
 %>
@@ -171,23 +158,15 @@
 					  <td align="center"><a id="in_b" href="delete_verify.jsp?c_id=<%= c_id %>&c_id_no=<%= c_id_no %>">취소</a></td>
 					</tr>
 <%
-				}
 			}
-		}catch(SQLException e){
-		    out.println(e);
-		    out.println(myResultSet);
-		    e.printStackTrace();
 		}
-		stmt.close();  
-		myConn.close();
-		%>
-		</table>
-		<br><br><br>
-		<div align="center">
-		<input type="text" value=<%=nYear %> disabled>년도
-		<input type="text" value=<%=nSemester %> disabled>학기
-<%
+	}catch(SQLException e){
+	    out.println(e);
+	    out.println(myResultSet);
+	    e.printStackTrace();
+	}
+	stmt.close();  
+	myConn.close();
 	}
 %>
-
-</body></html>
+</table></body></html>
