@@ -102,6 +102,13 @@
 			}
 			stmt.close();  
 			myConn.close();
+%>
+	</table>
+	<br><br><br>
+			<div align="center">
+			<input id="selectsearch" type="text" value=<%=nYear %> disabled>년도
+			<input id="selectsearch" type="text" value=<%=nSemester %> disabled>학기
+<%
 	} 
 	else {
 %>
@@ -167,6 +174,14 @@
 	}
 	stmt.close();  
 	myConn.close();
-	}
+	%>
+	</table>
+	<br><br><br>
+	<div align="center">
+	<input id="selectsearch" type="text" value=<%=nYear %> disabled>년도
+	<input id="selectsearch" type="text" value=<%=nSemester %> disabled>학기
+<%
+}
 %>
-</table></body></html>
+
+</body></html>
