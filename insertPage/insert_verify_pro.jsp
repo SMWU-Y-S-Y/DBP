@@ -1,9 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html><head><title> 수강신청 입력 </title></head>
-<body>
+<%@ page import="java.sql.*" %>
 
+<!DOCTYPE html>
+<html>
+<head><title> 수강신청 입력 </title></head>
+
+<body>
 <%
    request.setCharacterEncoding("UTF-8");
 
@@ -24,14 +27,14 @@
    }
    
    String c_unit = request.getParameter("lec_unit");
-   if(c_unit == null || c_unit.equals("")){
+   if(c_unit.equals("")){
       isOkay = false;
-   %>
+      %>
       <script>   
          alert("이수학점을 확인해주세요.");
-         location.href="insert_pro.jspp";
+         location.href="insert_pro.jsp";
       </script>
-   <%
+   	<%
    }
       
    int unit = 0;
@@ -39,7 +42,7 @@
       unit = Integer.parseInt(c_unit);
    else 
       unit = 0;
-
+   System.out.println(unit);
    if(unit == 0){
       isOkay = false;
    %>
@@ -61,10 +64,10 @@
    <%
    }
    
-   String year = request.getParameter("t_year");
+   String s_year = request.getParameter("t_year");
    int t_year = 0;
-   if(!year.eqauls("")){
-	   t_year = Integer.parseInt(t_year);
+   if(!s_year.equals("")){
+	   t_year = Integer.parseInt(s_year);
    }
    else{
 	   isOkay = false;
@@ -76,13 +79,13 @@
 	   <%
    }
 
-   String semester = request.getParameter("t_semester");
+   String s_semester = request.getParameter("t_semester");
    int t_semester = 0;
-   if(t_semester == "1" || t_semester == "2"){
-		t_semester = Integer.parseInt(semester);   
+   if(s_semester.equals("1") || s_semester.equals("2")){
+	   t_semester = Integer.parseInt(s_semester);   
    }
    else{
-	      isOkay = false;
+	   isOkay = false;
    %>
       <script>   
          alert("학기을 확인해주세요.");
@@ -109,7 +112,7 @@
    }
    
     String[] c_day = request.getParameterValues("lec_day");
-    String t_time = null;
+    String s_time = "";
     
     if(c_day == null || c_day.length > 2){
        isOkay = false;
@@ -123,23 +126,23 @@
     else{
        for(int i=0; i<c_day.length; i++){
           if(c_day[i].equals("월"))
-             t_time += "월";
+             s_time += "월";
           else if(c_day[i].equals("화"))
-        	 t_time += "화";
+        	 s_time += "화";
           else if(c_day[i].equals("수"))
-        	 t_time += "수";
+        	 s_time += "수";
           else if(c_day[i].equals("목"))
-      	  	 t_time += "목";        
+      	  	 s_time += "목";        
           else if(c_day[i].equals("금"))
-             t_time += "금";
+             s_time += "금";
        }
-       t_time += "/";
+       s_time += "/";
     }
-    
-    int sh, sm, eh, em;
+
+    String sh, sm, eh, em;
     sh = request.getParameter("lec_st_hh"); sm = request.getParameter("lec_st_mm");
     eh = request.getParameter("lec_et_hh"); em = request.getParameter("lec_et_mm");
-    t_time = t_time + sh + ":" + sm + "~" + eh + ":" + em;
+    s_time = s_time + sh + ":" + sm + "~" + eh + ":" + em;
     
     if (isOkay) {
     	Connection myConn = null;    
@@ -150,10 +153,10 @@
         String passwd = "1234";
         String dbdriver = "oracle.jdbc.driver.OracleDriver";
         
-        Statement stmt = null, stmt1 = null; ResultSet rs = null, rs1 = null;
-       	CallableStatement cstmt = null, cstmt1 = null;
- 
-       	PreparedStatement pstmt = null, pstmt1 = null;
+        Statement stmt = null; Statement stmt1 = null; 
+        ResultSet rs = null; ResultSet rs1 = null;
+       	CallableStatement cstmt = null; CallableStatement cstmt1 = null;
+       	PreparedStatement pstmt = null; PreparedStatement pstmt1 = null;
        	String sql = null;
        	Boolean check = false;
  
@@ -174,67 +177,66 @@
                     check = true;
                     c_id_no = Integer.parseInt(rs.getString("c_id_no"));
                 }
- 
-                if(check == false){ //분반만 없는 경우         	
-                    String cc_id = null; 
-                	int n_id;
-                    stmt1 = myConn.createStatement();
-                    sql = "select c_id from course";
-                    rs1 = stmt1.executeQuery(sql);
-                    while(rs1.next())
-                    	c_id = rs1.getString("c_id");
-                    cc_id = c_id.substring(1); n_id = Integer.parseInt(cc_id) + 1; out.print(n_id);
-                    c_id_no = 0; c_id = "C" + n_id;
-                    out.print(c_id + " " + c_id_no);
-                }
+	            if(check == false){ //분반만 없는 경우         	
+	                String cc_id = null; 
+	            	int n_id=20;
+	                stmt1 = myConn.createStatement();
+	                sql = "select c_id from course";
+	                rs1 = stmt1.executeQuery(sql);
+	                while(rs1.next())
+	                	c_id = rs1.getString("c_id");
+	                cc_id = c_id.substring(1); n_id = Integer.parseInt(cc_id) + 1; 
+	                //out.print(n_id);
+	                c_id_no = 1; c_id = "c" + n_id;
+	                //out.print(c_id + " " + c_id_no);
+	            }
+                System.out.println("분반확인");
+                System.out.println(c_id);
+                System.out.println(c_id_no);
                 
-                cstmt = myConn.prepareCall("{call InsertLecture(?,?,?,?,?,?,?,?,?,?,?,?,?)}");   
+                cstmt = myConn.prepareCall("{call InsertLecture(?,?,?,?,?,?,?,?,?,?,?)}");   
                 cstmt.setString(1, c_name);
-                cstmt.setString(2, c_unit);
+                cstmt.setInt(2, unit);
                 cstmt.setString(3, id);
                 cstmt.setString(4, c_id);
                 cstmt.setInt(5,c_id_no+1);
-             	cstmt.setInt(6, t_time);
-             	cstmt.setInt(7, t_year); // 추가
-             	cstmt.setInt(8, t_semester); // 추가
+             	cstmt.setString(6, s_time);
+             	cstmt.setInt(7, t_year); 
+             	cstmt.setInt(8, t_semester); 
              	cstmt.setString(9, c_loc); 
              	cstmt.setInt(10, max);
-             
+          
                 cstmt.registerOutParameter(11, java.sql.Types.VARCHAR);
                 cstmt.execute();
                
                 result = cstmt.getString(11);
-    %>
-               <script>   
-                  alert("<%=result%>");
-                  location.href="insert_pro.jsp";
-               </script>
-               <%      
-             
-             }
-
-       } catch(SQLException ex) {
+                System.out.println(result);
+    		 %>
+    		 <script>   
+    		 	alert("<%=result%>");
+          		location.href="insert_pro.jsp";
+       		</script>
+       		<%
+            }
+       	}catch(SQLException ex) {
            System.err.println("SQLException: " + ex.getMessage());
         }finally {
-           if (pstmt != null) 
+           if (pstmt != null){ 
                 try { 
-                   pstmt.close();
-                   pstmt1.close();
-                   cstmt.close();
-                   
+                   pstmt.close(); pstmt1.close(); cstmt.close();
                 }catch(SQLException ex) { 
                    out.print("error");
                 }
-            if(stmt != null){
-               try{
+           }
+           if(stmt != null){
+        	   try{
                   stmt.close();
                }catch(SQLException ex) { 
                    out.print("error");
-                }
+               }
             }
             myConn.close();
         }
     }
-
-  %>
-</form></body></html>
+ %>
+</body></html>

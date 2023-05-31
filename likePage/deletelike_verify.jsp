@@ -12,7 +12,7 @@
 	String user="c##ysy";   String passwd="1234";
 	String dbdriver = "oracle.jdbc.driver.OracleDriver";    
 	CallableStatement cstmt;
-
+	int is;
 	try {
 		Class.forName(dbdriver);
 	    myConn =  DriverManager.getConnection (dburl, user, passwd);
@@ -32,19 +32,26 @@
 	//String s_id = (String)session.getAttribute("user");
 	String c_id = request.getParameter("c_id");
 	int c_id_no = Integer.parseInt(request.getParameter("c_id_no"));		
-
+	is = Integer.parseInt(request.getParameter("main"));
     cstmt = myConn.prepareCall("{call DeleteLike(?,?,?,?)}");
 	cstmt.setString(1, s_id);
 	cstmt.setString(2, c_id);
 	cstmt.setInt(3, c_id_no);
 	cstmt.registerOutParameter(4, java.sql.Types.VARCHAR);	
+	
 	try  {  	
 		cstmt.execute();
 		result = cstmt.getString(4);		
 %>
-<script>	
+<script>
+	console.log(<%=is%>);
 	alert("<%=result%>"); 
-	location.href="like.jsp";
+	if(<%=is%>==1){
+		location.href="../insertPage/insert.jsp";
+	}else{
+		location.href="like.jsp";
+	}
+	
 	
 </script>
 <%		

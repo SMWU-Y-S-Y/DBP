@@ -20,7 +20,7 @@
 	<td align="center"><b><a href="../updatePage/update.jsp">사용자 정보 수정</b></td>
 <%	if( stu_mode == false ) { //교수님 모드 %> 
 	<td align="center"><b><a href="../insertPage/insert_pro.jsp">수업과목 추가</b></td>
-	<td align="center"><b><a href="../deletePage/delete_pro.jsp">수업과목 삭제</b></td>
+	<td align="center"><b><a href="../deletePage/delete.jsp">수업과목 삭제</b></td>
 	<td align="center"><b><a href="../selectPage/select_pro.jsp">수업과목 조회</b></td>
 <%  }
 	else { //학생 모드%>

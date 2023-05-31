@@ -4,13 +4,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title> 수강신청 조회 </title>
+<title> 수업과목 조회 </title>
 <script>
 	function onSelect(){
 		var formS = document.getElementById("selectForm");
 		var selectYear = formS.selectYear.value;
 		var selectSem = formS.selectSem.value;
-		location.href = "select.jsp?selectYear="+selectYear+"&selectSem="+selectSem;
+		location.href = "select_pro.jsp?selectYear="+selectYear+"&selectSem="+selectSem;
 	}
 </script>
 </head>
@@ -27,14 +27,14 @@
 </tr>
 
 <%
-String sId = (String)session.getAttribute("user");
+String pId = (String)session.getAttribute("user");
 String selectYear = request.getParameter("selectYear");
 String selectSem = request.getParameter("selectSem");
 
 int sYear = 0;
 int sSem = 0;
-int nTotalUnit = 0;
-int nTotalCnt = 0;
+//int nTotalUnit = 0;
+//int nTotalCnt = 0;
 %>
 
 <%
@@ -55,25 +55,26 @@ try {
 	System.err.println("SQLException: " + ex.getMessage());
 }
 
+
 if ((selectYear == null || selectYear.equals("")) && (selectSem == null || selectSem.equals(""))){
-	mySQL = "select e.c_id, e.c_id_no, c.c_name, c.c_unit, t.t_time, t.t_location from enroll e, course c, teach t where e.s_id = '" + sId + "'";
+	mySQL = "select t.c_id, t.c_id_no, c.c_name, c.c_unit, t.t_time, t.t_location from course c, teach t where t.p_id = '" + pId + "'";
 }
 else if (selectSem == null || selectSem.equals("")){
 	sYear = Integer.parseInt(selectYear);
-	mySQL = "select e.c_id, e.c_id_no, c.c_name, c.c_unit, t.t_time, t.t_location from enroll e, course c, teach t where e.s_id = '" + sId + "' and e.e_year = " + sYear;
+	mySQL = "select t.c_id, t.c_id_no, c.c_name, c.c_unit, t.t_time, t.t_location from course c, teach t where t.p_id = '" + pId + "' and t.t_year = " + sYear;
 }
 else if (selectYear == null || selectYear.equals("")){
 	sSem = Integer.parseInt(selectSem);
-	mySQL = "select e.c_id, e.c_id_no, c.c_name, c.c_unit, t.t_time, t.t_location from enroll e, course c, teach t where e.s_id = '" + sId + "' and e_semester = " + sSem;
+	mySQL = "select t.c_id, t.c_id_no, c.c_name, c.c_unit, t.t_time, t.t_location from course c, teach t where t.p_id = '" + pId + "' and t.t_semester = " + sSem;
 }
 else{
 	sYear = Integer.parseInt(selectYear);
 	sSem = Integer.parseInt(selectSem);
 	
-	mySQL = "select e.c_id, e.c_id_no, c.c_name, c.c_unit, t.t_time, t.t_location from enroll e, course c, teach t where e.s_id = '" + sId + "' and e.e_year = " + sYear + "and e_semester = " + sSem;
+	mySQL = "select t.c_id, t.c_id_no, c.c_name, c.c_unit, t.t_time, t.t_location from course c, teach t where t.p_id = '" + pId + "' and t.t_year = " + sYear + "and t.t_semester = " + sSem;
 }
 
-mySQL += "and e.c_id = c.c_id and e.c_id_no = c.c_id_no and c.c_id = t.c_id and c.c_id_no = t.c_id_no and e.e_year = t.t_year and e.e_semester = t.t_semester";
+mySQL += "and c.c_id = t.c_id and c.c_id_no = t.c_id_no";
 
 ResultSet myResultSet = stmt.executeQuery(mySQL);
 
@@ -82,15 +83,17 @@ if (myResultSet != null) {
 		String c_id = myResultSet.getString("c_id");
 		int c_id_no = myResultSet.getInt("c_id_no");
 		String c_name = myResultSet.getString("c_name");
+		int c_unit = myResultSet.getInt("c_unit");
 		String t_time = myResultSet.getString("t_time");
 		String t_location = myResultSet.getString("t_location");
-		int c_unit = myResultSet.getInt("c_unit");
-		
-		nTotalCnt += 1;
-		nTotalUnit += c_unit;
+		System.out.println("결과출력");
+		System.out.println(c_name);
+		System.out.println(c_unit);	
+		System.out.println(t_time);
+		System.out.println(t_location);	
 %>
 <tr>
-	<td align="center"><%= c_id %></td> 
+	<td align="center"><%= c_id %></td>
 	<td align="center"><%= c_id_no %></td>
 	<td align="center"><%= c_name %></td>
 	<td align="center"><%= t_time %></td>
@@ -104,11 +107,6 @@ if (myResultSet != null) {
 stmt.close(); myConn.close();
 %>
 
-</table>
-	
-<table width="75%" align="center" border>
-	<tr><td align="center">총 신청 과목 수</td><td align="center"><%=nTotalCnt %></td></tr>
-	<tr><td align="center">총 신청 학점 수</td><td align="center"><%=nTotalUnit %></td></tr>
 </table>
 
 <br><br><br>

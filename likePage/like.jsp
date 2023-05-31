@@ -58,7 +58,7 @@ try {
 	System.err.println("SQLException: " + ex.getMessage());
 }
 
-mySQL = "select l.c_id, l.c_id_no, c.c_name from liked l, course c where l.s_id = '" + sId + "' and c.c_id = l.c_id";
+mySQL = "select l.c_id, l.c_id_no, c.c_name from liked l, course c where l.s_id = '" + sId + "' and c.c_id = l.c_id and c.c_id_no = l.c_id_no";
 
 
 ResultSet myResultSet = stmt.executeQuery(mySQL);
@@ -69,7 +69,8 @@ if (myResultSet != null) {
 		int c_id_no = myResultSet.getInt("c_id_no");
 		mySQLtwo= "select COUNT(*) as tot from liked where c_id = '" + c_id+"' and c_id_no = '"+c_id_no+"'";
 		String c_name = myResultSet.getString("c_name");
-		int totlike =0;
+		int ismain = 0;
+		int totlike = 0;
 		ResultSet myResultSet1 = stmt2.executeQuery(mySQLtwo);
 		if(myResultSet1!=null){
 			while(myResultSet1.next()){
@@ -85,7 +86,7 @@ if (myResultSet != null) {
 	<td align="center"><%= c_id_no %></td>
 	<td align="center"><%= c_name %></td>
 	<td align="center"><%= totlike %></td>
-	<td align="center"><a id="in_b" href="deletelike_verify.jsp?c_id=<%= c_id %>&c_id_no=<%= c_id_no %>">찜 취소</a></td>
+	<td align="center"><a id="in_b" href="deletelike_verify.jsp?c_id=<%= c_id %>&main=<%= ismain %>&c_id_no=<%= c_id_no %>">찜 취소</a></td>
 	
 </tr>
 <%

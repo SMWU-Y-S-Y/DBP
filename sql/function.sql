@@ -1,5 +1,6 @@
 drop function Date2EnrollYear;
 drop function Date2EnrollSemester;
+drop function getStudentCnt;
 
 CREATE OR REPLACE FUNCTION Date2EnrollYear(dDate IN DATE)
 RETURN NUMBER
@@ -39,3 +40,20 @@ BEGIN
 END;
 /
 
+CREATE OR REPLACE FUNCTION getStudentCnt
+	(courseId	IN varchar2,
+	courseIdNo	IN number,
+	nYear		IN number,
+	nSem		IN number) 
+RETURN NUMBER
+IS
+	v_cnt	number;
+BEGIN
+	select count(*)
+	into v_cnt
+	from enroll
+	where c_id = courseId and c_id_no = courseIdNo and e_year = nYear and e_semester = nSem;
+	
+	return v_cnt;
+END;
+/

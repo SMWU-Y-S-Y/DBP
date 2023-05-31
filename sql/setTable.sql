@@ -7,6 +7,7 @@ DROP TABLE teach CASCADE CONSTRAINTS;
 drop table enroll purge;
 drop table professor purge;
 drop table liked purge;
+drop sequence enroll_seq;
 
 create table student(
 	s_id 		varchar2(100),
@@ -14,8 +15,6 @@ create table student(
 	s_pwd 		varchar2(200),
 	s_email		varchar2(200),
 	s_address 	varchar2(200),
-	s_unit		number,
-	s_cnt		number,
 	CONSTRAINT student_pk PRIMARY KEY(s_id)
 );
 
@@ -74,4 +73,5 @@ create table liked(
 	CONSTRAINT liked_fk2 FOREIGN KEY(c_id, c_id_no) REFERENCES course(c_id, c_id_no) ON DELETE CASCADE
 );
 
-CREATE sequence enroll_seq start with 10 increment by 1 maxvalue 9999 nocycle nocache;
+CREATE sequence enroll_seq start with 100 increment by 1 maxvalue 9999 nocycle nocache;
+CREATE sequence teach_seq start with 100 increment by 1 maxvalue 9999 nocycle nocache;

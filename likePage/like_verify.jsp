@@ -20,16 +20,9 @@
     	 System.err.println("SQLException: " + ex.getMessage());
 	}
 	
-	boolean stu_mode = true;
-	String session_id= (String)session.getAttribute("user");
-	if(session_id == null) {
-		session_id = (String)session.getAttribute("prof");
-	if(session_id != null) stu_mode = false;
-	}
 	
-
-	String s_id=session_id;
-	//String s_id = (String)session.getAttribute("user");
+	//String s_id=session_id;
+	String s_id = (String)session.getAttribute("user");
 	String c_id = request.getParameter("c_id");
 	int c_id_no = Integer.parseInt(request.getParameter("c_id_no"));		
 
@@ -44,7 +37,11 @@
 %>
 	<script>	
 		alert("<%=result%>"); 
-		location.href="like.jsp";
+		//if("<%=result%>"=="이미 찜한 과목입니다"){
+			location.href="../insertPage/insert.jsp";
+		//}else{
+		//	location.href="like.jsp";
+		//}
 		
 	</script>
 <%		

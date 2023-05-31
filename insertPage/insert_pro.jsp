@@ -20,7 +20,8 @@
 		<th>수업 시간</th>
 		<th>수업 장소</th>
 		<th>인원</th>
-	    <th>강의 추가</th>
+	    <th>개설 연도</th>
+	    <th>개설 학기</th>
 	</tr>
 	<tr></tr><tr></tr><tr></tr>
 	<tr></tr><tr></tr><tr></tr>
