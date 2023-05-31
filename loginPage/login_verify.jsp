@@ -16,11 +16,13 @@ String dbdriver = "oracle.jdbc.driver.OracleDriver";
 Class.forName(dbdriver);
 myConn=DriverManager.getConnection(dburl, user, passwd);
 stmt = myConn.createStatement();
-mySQL = "select s_id from student where s_id='" + userID + "' and s_pwd='" + userPassword + "'";
+mySQL = "select s_id, s_name from student where s_id='" + userID + "' and s_pwd='" + userPassword + "'";
 
 ResultSet myResultSet = stmt.executeQuery(mySQL);
 if(myResultSet.next()){
 	session.setAttribute("user",userID);
+	String s_name = myResultSet.getString("s_name");
+	session.setAttribute("user_name",s_name);
 	response.sendRedirect("../mainPage/main.jsp");
 }else {
 %>

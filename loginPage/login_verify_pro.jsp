@@ -29,6 +29,7 @@ ResultSet myResultSet = stmt.executeQuery(mySQL);
 if(myResultSet.next()){
 	session.setAttribute("user",userID);
 	session.setAttribute("mode",mode);
+	session.setAttribute("mode","prof");
 	response.sendRedirect("../mainPage/main.jsp");
 }else {
 %>
