@@ -59,7 +59,7 @@ try {
 }
 
 mySQL = "select l.c_id, l.c_id_no, c.c_name from liked l, course c where l.s_id = '" + sId + "' and c.c_id = l.c_id and c.c_id_no = l.c_id_no";
-
+mySQL += " order by length(l.c_id), l.c_id, l.c_id_no";
 
 ResultSet myResultSet = stmt.executeQuery(mySQL);
 
