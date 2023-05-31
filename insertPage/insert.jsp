@@ -45,11 +45,10 @@ String sText = request.getParameter("searchText");
 			<option value="2" selected>과목 번호</option>
 		<% } %>
 	</select>
-	<input type="text" name="searchText" <%if (sText != null){ %>value = <%= sText%><%} %> >
-	<input type="button" value="검색" onclick="onSearch()">
+	<input type="text" id="insertsearch" name="searchText" <%if (sText != null){ %>value = <%= sText%><%} %> >
+	<input type="button" value="검색" id="insertbtn" onclick="onSearch()">
 </form>
-
-<table width="75%" align="center" border>
+<table id="insert_table" width="75%" align="center">
 <tr>
 	<th>과목번호</th><th>분반</th><th>과목명</th><th>학점</th><th>시간</th><th>장소</th><th>현재 인원</th><th>최대 인원</th><th>수강신청</th><th>찜하기</th>
 </tr>
@@ -144,9 +143,9 @@ if (myResultSet != null) {
 	<td align="center"><%= t_max %></td>
 	<td align="center"><a href="insert_verify.jsp?c_id=<%= c_id %>&c_id_no=<%= c_id_no %>">신청</a></td>
 <% 	if (isliked){	%>
-		<td align="center"><a href="../likePage/deletelike_verify.jsp?c_id=<%= c_id %>&main=<%= ismain %>&c_id_no=<%= c_id_no %>">♥</a></td>
+		<td align="center"><a id="heart" href="../likePage/deletelike_verify.jsp?c_id=<%= c_id %>&main=<%= ismain %>&c_id_no=<%= c_id_no %>">♥</a></td>
 <%	}else{ %>
-		<td align="center"><a href="../likePage/like_verify.jsp?c_id=<%= c_id %>&c_id_no=<%= c_id_no %>">♡</a></td>
+		<td align="center"><a id="heart" href="../likePage/like_verify.jsp?c_id=<%= c_id %>&c_id_no=<%= c_id_no %>">♡</a></td>
 <%	} %>
 </tr>
 <%
