@@ -75,6 +75,7 @@ else{
 }
 
 mySQL += "and c.c_id = t.c_id and c.c_id_no = t.c_id_no";
+mySQL += " order by t.t_year DESC, t.t_semester DESC, length(t.c_id), t.c_id, t.c_id_no";
 
 ResultSet myResultSet = stmt.executeQuery(mySQL);
 
