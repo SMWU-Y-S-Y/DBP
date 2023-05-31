@@ -4,6 +4,7 @@
 <html>
 <head>
 <title>수강신청 입력</title>
+<link rel='stylesheet' href='../css/main.css' />
 <script>
 var searchType = "1";
 function changeValue(){
