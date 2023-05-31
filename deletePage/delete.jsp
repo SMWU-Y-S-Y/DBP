@@ -35,7 +35,7 @@
 	String passwd="1234";
 	String dbdriver = "oracle.jdbc.driver.OracleDriver";
 	String str_course_day = "";
-	int presentSemester = 0;
+	
 	try {
 		Class.forName(dbdriver);
         myConn =  DriverManager.getConnection (dburl, user, passwd);
@@ -84,13 +84,6 @@
 				String t_where = myResultSet.getString("t_location");
 				int t_max = myResultSet.getInt("t_max");
 				int t_semester = myResultSet.getInt("t_semester");
-				
-				
-				semesterSQL = "{call getNextSemester(?)}";
-				cstmt = myConn.prepareCall(semesterSQL);
-				cstmt.registerOutParameter(1, java.sql.Types.INTEGER);
-				cstmt.execute();
-				presentSemester = cstmt.getInt(1);
 				
 %>
 					<tr>
