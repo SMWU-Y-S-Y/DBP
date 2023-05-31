@@ -8,6 +8,7 @@ drop table enroll purge;
 drop table professor purge;
 drop table liked purge;
 drop sequence enroll_seq;
+drop sequence teach_seq;
 
 create table student(
 	s_id 		varchar2(100),
