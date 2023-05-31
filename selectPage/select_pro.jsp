@@ -5,6 +5,7 @@
 <html>
 <head>
 <title> 수업과목 조회 </title>
+<link rel='stylesheet' href='../css/main.css' />
 <script>
 	function onSelect(){
 		var formS = document.getElementById("selectForm");
@@ -20,7 +21,7 @@
 
 <% if (session_id==null) response.sendRedirect("../loginPage/login.jsp"); %>
 
-<table width="75%" align="center" border>
+<table id="p_select_table" width="75%" align="center">
 <br>
 <tr>
 	<th>과목번호</th><th>분반</th><th>과목명</th><th>강의시간</th><th>강의장소</th><th>학점</th>
@@ -76,7 +77,6 @@ else{
 
 mySQL += "and c.c_id = t.c_id and c.c_id_no = t.c_id_no";
 mySQL += " order by t.t_year DESC, t.t_semester DESC, length(t.c_id), t.c_id, t.c_id_no";
-
 ResultSet myResultSet = stmt.executeQuery(mySQL);
 
 if (myResultSet != null) {
@@ -113,9 +113,9 @@ stmt.close(); myConn.close();
 <br><br><br>
 <div align="center">
 <form method="post" width="75%" align="center" id="selectForm" action="select.jsp">
-<input type="text" name="selectYear" <%if (selectYear != null){ %> value = <%=selectYear%><% } %>>년도
-<input type="text" name="selectSem" <%if (selectSem != null){ %> value = <%=selectSem%><% } %>>학기
-<input type="button" value="조회" onclick="onSelect()">
+<input type="text" id="selectsearch"  name="selectYear" <%if (selectYear != null){ %> value = <%=selectYear%><% } %>>년도
+<input type="text" id="selectsearch"  name="selectSem" <%if (selectSem != null){ %> value = <%=selectSem%><% } %>>학기
+<input type="button" id="select_btn" value="조회" onclick="onSelect()">
 </form>
 
 </div>
