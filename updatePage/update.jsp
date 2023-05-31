@@ -3,7 +3,8 @@
 
 <html>
 <head>
-<title>수강신청 사용자 정보 수정</title>
+	<title>수강신청 사용자 정보 수정</title>
+	<link rel='stylesheet' href='../css/main.css' />
 </head>
 
 <body>
@@ -45,20 +46,23 @@ if (stu_mode == true){
 	%>
 	
 	<form method="post" action="update_verify.jsp">
-		<table width="75%" align="center" border>
-		<tr><th> ID </th>
-		<td><input type="text" name="updateId" size="50" value="<%=updateId%>" disabled></td></tr>
-		<tr><th> Name </th>
-		<td><input type="text" name="updateName" size="50" value="<%=updateName%>" disabled></td></tr>
-		<tr><th> Password </th>
-		<td><input type="text" name="updatePwd" size="50" value="<%=updatePwd%>"></td></tr>
-		<tr><th> Email </th>
-		<td>
-			<input type="text" name="updateEmailId" size="50" value="<%=emailId%>">@
-			<input type="text" name="updateEmailDomain" size="50" value="<%=emailDomain%>">
-		</td></tr>
-		<tr><th> Address </th>
-		<td><input type="text" name="updateAddr" size="50" value="<%=updateAddr%>"></td></tr>
+		<table width="75%" id="update_table" align="center">
+		<tr><th id="updateid"> ID </th>
+		<td><input id="updateinputFixed" type="text" name="updateId" size="50" value="<%=updateId%>" disabled></td></tr>
+		<tr><th id="updateid"> Name </th>
+		<td><input id="updateinputFixed" type="text" name="updateName" size="50" value="<%=updateName%>" disabled></td></tr>
+		<tr><th id="updateid"> Password </th>
+		<td><input id="updateinput" type="text" name="updatePwd" size="87" value="<%=updatePwd%>"></td></tr>
+		<tr>
+			<th id="updateid"> Email </th>
+			<td>
+				<input id="updateinput" type="text" name="updateEmailId" width="50%" size="40" value="<%=emailId%>">
+				@
+				<input id="updateinput" type="text" name="updateEmailDomain" size="40" width="40%"  value="<%=emailDomain%>">
+			</td>
+		</tr>
+		<tr><th id="updateid"> Address </th>
+		<td><input id="updateinput" type="text" name="updateAddr" size="87" value="<%=updateAddr%>"></td></tr>
 	<%
 	} else{
 		
@@ -80,19 +84,23 @@ else {
 		String emailDomain = updateEmail.substring(idx+1);
 	%>
 
-	<form method="post" action="update_verify.jsp" id="updateForm">
-		<table width="75%" align="center" border>
-		<tr><th> ID </th>
-		<td><input type="text" name="updateId" size="50" value="<%=updateId%>" disabled></td></tr>
-		<tr><th> Name </th>
-		<td><input type="text" name="updateName" size="50" value="<%=updateName%>" disabled></td></tr>
-		<tr><th> Password </th>
-		<td><input type="text" name="updatePwd" size="50" value="<%=updatePwd%>"></td></tr>
-		<tr><th> Email </th>
-		<td>
-			<input type="text" name="updateEmailId" size="50" value="<%=emailId%>">@
-			<input type="text" name="updateEmailDomain" size="50" value="<%=emailDomain%>">
-		</td></tr>
+	<form method="post" action="update_verify.jsp">
+		<table width="75%" id="update_table" align="center">
+		<tr><th id="updateid"> ID </th>
+		<td><input id="updateinputFixed" type="text" name="updateId" size="50" value="<%=updateId%>" disabled></td></tr>
+		<tr><th id="updateid"> Name </th>
+		<td><input id="updateinputFixed" type="text" name="updateName" size="50" value="<%=updateName%>" disabled></td></tr>
+		<tr><th id="updateid"> Password </th>
+		<td><input id="updateinput" type="text" name="updatePwd" size="87" value="<%=updatePwd%>"></td></tr>
+		<tr>
+			<th id="updateid"> Email </th>
+			<td>
+				<input id="updateinput" type="text" name="updateEmailId" width="50%" size="40" value="<%=emailId%>">
+				@
+				<input id="updateinput" type="text" name="updateEmailDomain" size="40" width="40%"  value="<%=emailDomain%>">
+			</td>
+		</tr>
+		
 	<%
 	} else{
 		
@@ -102,7 +110,7 @@ else {
 
 stmt.close(); myConn.close();
 %>
-<tr><td colspan="2" align="center"><input type="submit" value="수정") ></td></tr>
+<tr><td colspan="2" align="center"><input id="update_btn" type="submit" value="수정") ></td></tr>
 </table>
 </form>
 </body>
