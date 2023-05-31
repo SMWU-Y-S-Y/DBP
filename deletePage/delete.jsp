@@ -72,6 +72,8 @@
 	int nYear=cstmt1.getInt(1);
 	int nSemester=cstmt2.getInt(1);
 	mySQL = "select t.c_id, t.c_id_no, c.c_name, t.t_year, t.t_time, t.t_location, t.t_max, t.t_semester from course c, teach t, professor p where p.p_id='"+ session_id +"' and t.t_semester = '"+nSemester+ "' and t.t_year ='"+nYear+"' and t.p_id = p.p_id and c.c_id = t.c_id and t.c_id_no = c.c_id_no";
+	mySQL += " order by length(t.c_id), t.c_id, t.c_id_no";
+	
 	try{
 		myResultSet = stmt.executeQuery(mySQL);
 		if (myResultSet != null) {
@@ -142,6 +144,7 @@
 	int nSemester=cstmt2.getInt(1);
 	
 	mySQL = "select e.c_id, e.c_id_no, e.e_semester, c.c_name, c.c_unit, t.t_year, t.t_time, t.t_location from course c, enroll e, teach t where e.s_id ='"+ session_id + "' and t.t_semester = '"+nSemester+ "' and t.t_year ='"+nYear+"'and e.c_id = c.c_id and e.c_id_no = c.c_id_no and t.c_id = c.c_id and t.c_id_no = c.c_id_no";
+	mySQL += " order by length(t.c_id), t.c_id, t.c_id_no";
 	try{
 		myResultSet = stmt.executeQuery(mySQL);
 		if (myResultSet != null) {
