@@ -24,12 +24,14 @@ try{
 	System.out.println("오라클 연결 실패");
 }
 stmt = myConn.createStatement();
-mySQL="select p_id from professor where p_id='" + userID + "'and p_pwd='" + userPassword + "'";	
+mySQL="select p_id, p_name from professor where p_id='" + userID + "'and p_pwd='" + userPassword + "'";	
 ResultSet myResultSet = stmt.executeQuery(mySQL);
 if(myResultSet.next()){
 	session.setAttribute("user",userID);
 	session.setAttribute("mode",mode);
 	session.setAttribute("mode","prof");
+	String p_name = myResultSet.getString("p_name");
+	session.setAttribute("user_name",p_name);
 	response.sendRedirect("../mainPage/main.jsp");
 }else {
 %>
