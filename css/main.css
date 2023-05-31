@@ -88,9 +88,13 @@ body{
 	border: none;
 }
 
+#insert_table{
+	border-collapse:collapse;
+	font-size: 1.2em;
+	border: 1px solid lightgrey;
+}
 
-
-/*³×ºñ°ÔÀÌ¼Ç ¹Ù*/
+/*ë„¤ë¹„ê²Œì´ì…˜ ë°”*/
 #top_nav{
 
 	margin-top:30px;
@@ -144,6 +148,30 @@ body{
 	border:none;
 
 	padding:5px 10px;
+	outline:none;
+	font-size: 1em;
+}
+#pinsertsearch{
+
+	margin: 10px 5px 5px;
+	
+	border-radius:10px;
+	font-family: 'Gowun Batang';
+	background:#f5f5f5;
+	border:none;
+
+	padding:5px 10px;
+	outline:none;
+	font-size: 1em;
+}#pinsertH{
+
+	text-align:center;
+	border-radius:10px;
+	font-family: 'Gowun Batang';
+	background:#f5f5f5;
+	border:none;
+	width:100px;
+	padding:5px 7px;
 	outline:none;
 	font-size: 1em;
 }
@@ -326,7 +354,7 @@ th{
 	padding: 5px;
 }
 
-/*»ç¿ëÀÚ Á¤º¸ ¼öÁ¤ °¡´É input*/
+/*ì‚¬ìš©ì ì •ë³´ ìˆ˜ì • ê°€ëŠ¥ input*/
 #updateinput{
 	font-family: 'Gowun Batang';
 	background:#e6e7e8;
@@ -341,7 +369,7 @@ th{
 	background:white;
 }
 
-/*»ç¿ëÀÚ Á¤º¸ ¼öÁ¤ °íÁ¤ input*/
+/*ì‚¬ìš©ì ì •ë³´ ìˆ˜ì • ê³ ì • input*/
 #updateinputFixed{
 	font-family: 'Gowun Batang';
 	background:0;
@@ -364,9 +392,11 @@ th{
 	margin-top: 50px;
 	margin-bottom: -50px;
 }
-
-#insert_table{
+#p_select_table{
 	border-collapse:collapse;
-	font-size: 1.2em;
+	border:none;
 	border: 1px solid lightgrey;
+	font-size: 1.2em;
+	margin-top: 50px;
+	margin-bottom: -50px;
 }
