@@ -3,7 +3,8 @@
 
 <html>
 <head>
-<title>수강신청 입력</title>
+<title>추가 개설 과목 입력</title>
+<link rel='stylesheet' href='../css/main.css' />
 </head>
 
 <body>
@@ -37,7 +38,7 @@ int nSem = cstmt2.getInt(1);
 myConn.close();
 %>
 
-<table width="70%" align="center" id="p_insert_table" style="font-size: 1.2em; margin-top: 8%;">
+<table width="75%" align="center" id="p_insert_table" style="font-size: 1.2em; margin-top: 30px;">
 <br>
 	<tr style="background-color: #ff6347; color:white;">
 		<th style="padding-top: 1%; padding-bottom: 1%;">과목명</th>
@@ -47,15 +48,15 @@ myConn.close();
 		<th>수업 장소</th>
 		<th>인원</th>
 	    <th>개설 연도</th>
-	    <th>개설 학기</th>
+	    <th style="padding-right: 5px;">개설 학기</th>
 	</tr>
 	<tr></tr><tr></tr><tr></tr>
 	<tr></tr><tr></tr><tr></tr>
 	<tr>	</tr>
 	
-	<form action="insert_verify_pro.jsp?&id=<%=session_id%>" method="post">
-		<td align="center"><input type="text" name="lec_name" id="in"></td>
-		<td align="center"><input type="text" style="width:60px;" name="lec_unit" id="in" value="3"></td>
+	<form id="insertForm" action="insert_verify_pro.jsp?&id=<%=session_id%>" method="post">
+		<td align="center"><input id="pinsertsearch" type="text" name="lec_name" ></td>
+		<td align="center"><input id="pinsertsearch" type="text" style="width:60px;" name="lec_unit" id="in" value="3"></td>
 		<td align="center">
 			<input type="checkbox" name="lec_day" id="in_c" value="월">월
 			<input type="checkbox" name="lec_day" id="in_c" value="화">화 
@@ -64,19 +65,19 @@ myConn.close();
 			<input type="checkbox" name="lec_day" id="in_c" value="금">금
 		</td>
 		<td align="center">
-				<input type="text" name="lec_st_hh" id="in" style="font-size: 1em; width:25pt;" value="08">
+				<input type="text" name="lec_st_hh" id="pinsertH" style="font-size: 1em; width:40pt;" value="08">
 				:
-				<input type="text" name="lec_st_mm" id="in" style="font-size: 1em; width:25pt;" value="00">
+				<input type="text" name="lec_st_mm" id="pinsertH"style="font-size: 1em; width:40pt;" value="00">
 				-
-				<input type="text" name="lec_et_hh" id="in" style="font-size: 1em; width:25pt;" value="10">
+				<input type="text" name="lec_et_hh" id="pinsertH" style="font-size: 1em; width:40pt;" value="10">
 				:
-				<input type="text" name="lec_et_mm" id="in" style="font-size: 1em; width:25pt;" value="00">
+				<input type="text" name="lec_et_mm" id="pinsertH" style="font-size: 1em; width:40pt;" value="00">
 		</td> 
-		<td align="center"><input type="text" name="lec_loc" id="in"></td>
-		<td align="center"><input type="text" name="lec_max" style="width:65px;" id="in"></td>
-		<td align="center"><input type="text" name="t_year" style="width:65px;" id="in" value=<%= nYear%> disabled></td>
-		<td align="center"><input type="text" name="t_semester" style="width:65px;" id="in" value=<%= nSem%> disabled></td>
-		<td align="center"><input type="submit" value="추가" id="in_b" style="font-family: ppi;" value="1"></td>
+		<td align="center"><input type="text" name="lec_loc" id="pinsertsearch" ></td>
+		<td align="center"><input type="text" name="lec_max" style="width:65px;"id="pinsertsearch" ></td>
+		<td align="center"><input type="text" name="t_year" style="width:65px;text-align:center;" id="updateinputFixed"  value=<%= nYear%> disabled></td>
+		<td align="center"><input type="text" name="t_semester" style="width:65px;text-align:center;" id="updateinputFixed" value=<%= nSem%> disabled></td>
+		<td align="center"><input type="submit" value="추가" id="insertbtn" style="margin-left:5px" value="1"></td>
 	</form>
 	</tr>
 </table>
