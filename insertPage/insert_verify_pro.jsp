@@ -158,48 +158,59 @@
        	CallableStatement cstmt = null; CallableStatement cstmt1 = null;
        	PreparedStatement pstmt = null; PreparedStatement pstmt1 = null;
        	String sql = null;
-       	Boolean check = false;
- 
-       	int c_id_no = 0;
+       	Boolean check = false; //기존에 있는 값인지 확인
  
        	try{
        		Class.forName(dbdriver);
             myConn =  DriverManager.getConnection (dburl, user, passwd);
             stmt = myConn.createStatement();
  
-            sql = "select c_id, c_id_no from course where c_name = '" + c_name+"'";
+            //기존 테이블에서 과목명으로 검색
+            sql = "select c_id, c_id_no from course where c_name = '" + c_name+ "'";
             rs = stmt.executeQuery(sql);
  
-            if(rs != null) { //해당 c_id와 c_id_no 값을 가진 course 있으면
+            if(rs != null) {
             	String c_id = null;
-                while(rs.next()){
+            	int c_id_no = 0;
+            	
+                while(rs.next()){ //기존에 있는 수업이라면 c_id, c_id_no 가져오기
                     c_id = rs.getString("c_id");
                     check = true;
                     c_id_no = Integer.parseInt(rs.getString("c_id_no"));
+                    //System.out.println("기존에 있는 수업입니다. 과목번호: " + c_id + "분반번호" + c_id_no);
                 }
-	            if(check == false){ //분반만 없는 경우         	
+	            if(check == false){ //새로운 수업이라면   	
 	                String cc_id = null; 
-	            	int n_id=20;
-	                stmt1 = myConn.createStatement();
-	                sql = "select c_id from course";
+	            	int n_id=0;
+	                int max_id=0;
+	            	stmt1 = myConn.createStatement();
+	                sql = "select c_id from course"; //모든 c_id 출력
 	                rs1 = stmt1.executeQuery(sql);
-	                while(rs1.next())
-	                	c_id = rs1.getString("c_id");
-	                cc_id = c_id.substring(1); n_id = Integer.parseInt(cc_id) + 1; 
-	                //out.print(n_id);
-	                c_id_no = 1; c_id = "c" + n_id;
-	                //out.print(c_id + " " + c_id_no);
+
+	                if(rs1 != null){
+	                	while(rs1.next()){
+		                	c_id = rs1.getString("c_id");
+		                	cc_id = c_id.substring(1); // 숫자만 출력
+		                	if(max_id < Integer.parseInt(cc_id) + 1){
+		                		max_id = Integer.parseInt(cc_id)+1; 
+		                	}
+	                	}
+	                }
+	                c_id = "c" +max_id;
+	                c_id_no = 1;
 	            }
-                System.out.println("분반확인");
-                System.out.println(c_id);
-                System.out.println(c_id_no);
-                
+	            else{ //기존에 있는 수업이라면
+	            	c_id_no += 1; //과목코드는 그대로, 분반은 하나 증가
+	            }
+
+	            //System.out.println("새로운 과목 코드입니다. 과목번호: " + c_id + "분반번호" + c_id_no);
+	            
                 cstmt = myConn.prepareCall("{call InsertLecture(?,?,?,?,?,?,?,?,?,?,?)}");   
                 cstmt.setString(1, c_name);
                 cstmt.setInt(2, unit);
                 cstmt.setString(3, id);
                 cstmt.setString(4, c_id);
-                cstmt.setInt(5,c_id_no+1);
+                cstmt.setInt(5,c_id_no);
              	cstmt.setString(6, s_time);
              	cstmt.setInt(7, t_year); 
              	cstmt.setInt(8, t_semester); 
@@ -210,7 +221,7 @@
                 cstmt.execute();
                
                 result = cstmt.getString(11);
-                System.out.println(result);
+                //System.out.println(result);
     		 %>
     		 <script>   
     		 	alert("<%=result%>");
