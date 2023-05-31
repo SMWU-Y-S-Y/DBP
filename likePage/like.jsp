@@ -5,6 +5,7 @@
 <html>
 <head>
 <title> 찜목록 조회 </title>
+<link rel='stylesheet' href='../css/main.css' />
 <script>
 	function onSelect(){
 		var formS = document.getElementById("selectForm");
@@ -20,7 +21,7 @@
 
 <% if (session_id==null) response.sendRedirect("../loginPage/login.jsp"); %>
 
-<table width="75%" align="center" border>
+<table id="delete_table" width="75%" align="center">
 <br>
 <tr>
 	<th>과목번호</th><th>분반</th><th>과목명</th><th>담은 인원</th><th>찜 취소</th>
@@ -60,7 +61,6 @@ try {
 
 mySQL = "select l.c_id, l.c_id_no, c.c_name from liked l, course c where l.s_id = '" + sId + "' and c.c_id = l.c_id and c.c_id_no = l.c_id_no";
 mySQL += " order by length(l.c_id), l.c_id, l.c_id_no";
-
 ResultSet myResultSet = stmt.executeQuery(mySQL);
 
 if (myResultSet != null) {
@@ -75,19 +75,15 @@ if (myResultSet != null) {
 		if(myResultSet1!=null){
 			while(myResultSet1.next()){
 				totlike= myResultSet1.getInt("tot");
-			}
-			
+			}			
 		}
-		
-
 %>
 <tr>
 	<td align="center"><%= c_id %></td> 
 	<td align="center"><%= c_id_no %></td>
 	<td align="center"><%= c_name %></td>
 	<td align="center"><%= totlike %></td>
-	<td align="center"><a id="in_b" href="deletelike_verify.jsp?c_id=<%= c_id %>&main=<%= ismain %>&c_id_no=<%= c_id_no %>">찜 취소</a></td>
-	
+	<td align="center"><a id="heart" href="deletelike_verify.jsp?c_id=<%= c_id %>&main=<%= ismain %>&c_id_no=<%= c_id_no %>">♥</a></td>
 </tr>
 <%
 	}
