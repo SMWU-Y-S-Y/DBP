@@ -44,12 +44,6 @@ body{
   src : url(../font/GowunBatang-Regular.ttf) format('truetype');
 }
 
-#home, #home:visited {
-	text-decoration: none;
-	color: black;
-}
-
-
 
 #top_title, #top_title:visited{
 	text-decoration: none;
@@ -77,10 +71,6 @@ body{
 	font-weight: bolder;
 }
 
-#loginout{
-	color: black;
-	font-size: 3em;
-}
 
 #p_insert_table {
 	border-collapse:collapse;
@@ -191,19 +181,7 @@ body{
 	font-size: 1em;
 }
 
-#login_title{
-	background-color: #FF6347;
-	text-align: center;
-	font-size: 2em;
-	margin-top : 13%;
-	margin-bottom: 3%;
-	width: 30%;
-	margin-left: 33%;
-	padding : 2%;
-	border-radius: 20px;
-	color: white;
-	font-weight: bolder;
-}
+
 
 #login_table{
 	font-size: 1.1em;
@@ -229,17 +207,6 @@ body{
 	width:40%;
 }
 
-#login_tag{
-	font-weight: bolder;
-	width: 40%;
-}
-
-#login_id_in, #login_pw_in {
-	height : 25pt;
-	width : 150pt;
-	font-size: 20pt;
-	font-family: ppi;
-}
 
 #in {
 	height : 25pt;
@@ -258,35 +225,12 @@ body{
 	font-family: ppi;
 }
 
-#in_t {
-	height : 25pt;
-	width : 20pt;
-	font-size: 20pt;
-	color: white;
-	text-decoration: none;
-
-}
 #in_b, #in_b:visited {
 	width: 80pt;
 	font-size: 17pt;
 	color: blue;	
 }
 
-#update_id_in, #update_pw_in{
-	height : 25pt;
-	width : 100%;
-	font-size: 20pt;
-	padding-left: 8px;
-	font-family: ppi;
-}
-
-#update_add_in{
-	font-family: ppi;
-	width: 100%;
-	height: 25pt;
-	font-size: 20pt;
-	padding-left: 8px;
-}
 
 #update_td{
 	width: 12%;
@@ -295,20 +239,6 @@ body{
 	background:#0072ce;
 }
 
-#login_div_btn{
-	margin-top: 5%;
-}
-
-#login_cbtn, #login_sbtn, #update_btn{
-	font-size: 13pt;
-	width : 100pt; height: 30pt;
-	font-family: 'Gowun Batang';
-	background:#0072ce;
-	border-radius:30px;
-	margin:7px;
-	color:white;
-	border:none;
-}
 #select_btn{
 	font-size: 13pt;
 	padding:5px 15px;
